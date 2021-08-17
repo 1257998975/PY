@@ -1,32 +1,47 @@
 from kivy.app import App
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
-from kivy.uix.image import Image
+from kivy.uix.floatlayout import FloatLayout
+from kivy.lang import Builder
 
-labelStr = '''
-[b]Kivy Logo[/b]
-    test test test
-'''
+Builder.load_string('''
+<GridLayout>
+    canvas.before:
+        BorderImage:
+            # BorderImage behaves like the CSS BorderImage
+            border: 10, 10, 10, 10
+            source: 'image/1.jpg'
+            pos: self.pos
+            size: self.size
+
+<RootWidget>
+    GridLayout:
+        size_hint: .9, .9
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        rows:1
+        Label:
+            text: "I don't suffer from insanity, I enjoy every minute of it"
+            text_size: self.width-20, self.height-20
+            valign: 'top'
+        Label:
+            text: "When I was born I was so surprised; I didn't speak for a year and a half."
+            text_size: self.width-20, self.height-20
+            valign: 'middle'
+            halign: 'center'
+        Label:
+            text: "A consultant is someone who takes a subject you understand and makes it sound confusing"
+            text_size: self.width-20, self.height-20
+            valign: 'bottom'
+            halign: 'justify'
+''')
 
 
-class TestApp(App):
+class RootWidget(FloatLayout):
+    pass
+
+
+class MainApp(App):
     def build(self):
-        self.title = 'Kivy Logo'
-        # title窗口标题
-
-        layout = GridLayout(cols=1)
-        # gridLayout网格布局,cols列数
-
-        lab = Label(text=labelStr, markup=True,
-                    font_size='30sp', size_hint_y=None, height=100)
-        # 开启markup语法支持.字体大小:30sp.高度:100
-
-        img = Image(source='image/1.jpg')
-
-        layout.add_widget(lab)
-        layout.add_widget(img)
-        return layout
+        return RootWidget()
 
 
 if __name__ == '__main__':
-    TestApp().run()
+    MainApp().run()
