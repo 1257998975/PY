@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.lang import Builder
+from kivy.core.audio import SoundLoader
 
 Builder.load_string('''
 <GridLayout>
@@ -11,7 +12,6 @@ Builder.load_string('''
             source: 'image/1.jpg'
             pos: self.pos
             size: self.size
-
 <RootWidget>
     GridLayout:
         size_hint: .9, .9
@@ -40,6 +40,11 @@ class RootWidget(FloatLayout):
 
 class MainApp(App):
     def build(self):
+        sound = SoundLoader.load('music/1.mp3')
+        if sound:
+            print("Sound found at %s" % sound.source)
+            print("Sound is %.3f seconds" % sound.length)
+            sound.play()
         return RootWidget()
 
 
