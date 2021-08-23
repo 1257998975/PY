@@ -1,15 +1,16 @@
 from kivy.app import App
-from kivy.uix.floatlayout import FloatLayout
-from kivy.lang import Builder
 from kivy.core.audio import SoundLoader
 from kivy.core.text import LabelBase
-from kivy.core.image import Image as CoreImage
+from kivy.lang import Builder
+from kivy.uix.floatlayout import FloatLayout
 
 # -*- coding: utf-8 -*-
 
 
 LabelBase.register(name='Font_Hanzi', fn_regular='./fonts/STKAITI.ttf')
 
+global i
+i = 0
 Builder.load_string('''
 <GridLayout>
     canvas.before:
@@ -24,16 +25,8 @@ Builder.load_string('''
         # size_hint: .9, .9
         pos_hint: {'center_x': .5, 'center_y': .5}
         rows:1
-        # Label:
-        #     text: "I don't suffer from insanity, I enjoy every minute of it"
-        #     text_size: self.width-20, self.height-20
-        #     valign: 'top'
-        # Label:
-        #     text: "When I was born I was so surprised; I didn't speak for a year and a half."
-        #     text_size: self.width-20, self.height-20
-        #     valign: 'middle'
-        #     # halign: 'center'
         Label:
+            id:sa                                                   #设置id为sa
             canvas.before:
                 Rectangle:
                     pos: [0,0]
@@ -43,11 +36,22 @@ Builder.load_string('''
             text_size: self.width-200, self.height-100
             valign: 'bottom'
             font_name: 'Font_Hanzi'
+            on_touch_down: root.hulk_smash()                 
+            #点击时调用根元素（RootWidget）的hulk_smash()方法
 ''')
 
 
 class RootWidget(FloatLayout):
-    pass
+    def hulk_smash(self):
+        global i
+        i += 1
+        switch = {
+            1: "。。。。。。",
+            2: "。。。",
+            3: ""
+        }
+
+        self.ids.sa.text = switch.get(i, '000')  # 获取id为sa的元素并设置text为ss
 
 
 class MainApp(App):
